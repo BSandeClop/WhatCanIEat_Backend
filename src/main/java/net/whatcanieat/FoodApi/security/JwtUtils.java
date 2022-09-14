@@ -5,15 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import net.whatcanieat.FoodApi.dto.AuthRequest;
 import net.whatcanieat.FoodApi.dto.AuthResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +23,13 @@ public class JwtUtils {
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
         try {
             if (request.getUsername().equals("${ADMIN}") && request.getPassword().equals("${PWD}")){
-
+                System.out.println("Entre al if");
                 UserPrincipal user = new UserPrincipal(request.getUsername());
+
                 Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
+
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                
+
                 return new AuthResponse(createToken(user.getUsername()));
             }
             throw new AuthenticationException();
@@ -82,7 +78,12 @@ public class JwtUtils {
         }
     }
 
-    public static String getTokenWithoutBearer(HttpServletRequest request) {
-        return request.getHeader("Authorization").substring(7);
+    public static Optional<String> getTokenWithoutBearer(HttpServletRequest request) {
+        Optional<String> token = Optional.ofNullable(request.getHeader("Authorization"));
+        return getTokenWithoutBearer(token);
+    }
+
+    private static Optional<String> getTokenWithoutBearer(Optional<String> bearerToken){
+        return bearerToken.map(s -> s.substring(7));
     }
 }

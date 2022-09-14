@@ -11,14 +11,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String token = JwtUtils.getTokenWithoutBearer(request);
-            verifyAndAuthUser(request, token);
+
+            Optional<String> token = JwtUtils.getTokenWithoutBearer(request);
+            token.ifPresent(t -> verifyAndAuthUser(request, t));
+
         } catch (Exception e){
             System.out.println("Error en JwtRequestFilter > doFilterInternal " + e);
         }
