@@ -34,4 +34,14 @@ public class PlatoService {
     public Plato getOne(){
         return platoRepository.findOneRandom().orElse(new Plato());
     }
+
+    public void removeById(Long id){
+        try {
+            platoRepository.deleteById(id);
+        } catch (Exception e){
+            System.out.println("Error en PlatoService: removeById ");
+            throw e;
+        }
+
+    }
 }

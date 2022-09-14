@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,7 +19,12 @@ public class PlatoController {
         this.platoService = platoService;
     }
 
-    @GetMapping(params = "/api/platos")
+    @GetMapping(path = "/")
+    public ResponseEntity<String> status(){
+        return new ResponseEntity<>("FoodApi esta corriendo", HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/platos")
     public ResponseEntity<Plato> getPlato(){
         return new ResponseEntity<>(platoService.getOne(), HttpStatus.OK);
     }
@@ -31,9 +34,18 @@ public class PlatoController {
         return new ResponseEntity<>(platoService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping(path = "/api/platos")
-    public ResponseEntity<List<Plato>> addOne(List<Plato> plato){
-        return new ResponseEntity<>(platoService.saveOrUpdate(plato), HttpStatus.OK);
+    @PostMapping(path = "/api/abm/platos")
+    public ResponseEntity<List<Plato>> addPlatos(@RequestBody List<Plato> lst){
+        return new ResponseEntity<>(platoService.saveOrUpdate(lst), HttpStatus.OK);
     }
 
+    @DeleteMapping(path = "/api/abm/{id}")
+    public ResponseEntity removePlatoById(@PathVariable Long id){
+        try {
+            platoService.removeById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
