@@ -44,4 +44,8 @@ public class PlatoService {
         }
 
     }
+
+    public List<Plato> findAll() {
+        return platoRepository.findAll();
+    }
 }

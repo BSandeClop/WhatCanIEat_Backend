@@ -17,11 +17,8 @@ import java.util.Optional;
 public class JwtUtils {
 
     private static final long EXPIRATION_TIME = 43200; //12 hs
-
     private static String SECRET = System.getenv("JWT_SECRET");
-
     private static String USER = System.getenv("USER");
-
     private static String PASS = System.getenv("PASS");
 
     private static final SignatureAlgorithm ALGO = SignatureAlgorithm.HS256;
@@ -48,7 +45,6 @@ public class JwtUtils {
 
     private static String createToken(String username){
         Date now = new Date();
-
         return Jwts
                 .builder()
                 .setSubject(username)

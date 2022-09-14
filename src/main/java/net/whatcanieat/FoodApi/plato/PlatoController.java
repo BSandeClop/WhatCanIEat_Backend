@@ -21,7 +21,7 @@ public class PlatoController {
 
     @GetMapping(path = "/")
     public ResponseEntity<String> status(){
-        return new ResponseEntity<>("FoodApi esta corriendo", HttpStatus.OK);
+        return new ResponseEntity<>("FoodApi is running", HttpStatus.OK);
     }
 
     @GetMapping(path = "/api/platos")
@@ -32,6 +32,11 @@ public class PlatoController {
     @GetMapping(path = "/api/platos/{id}")
     public ResponseEntity<Plato> getById(@PathVariable Long id){
         return new ResponseEntity<>(platoService.getById(id), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/abm/platos")
+    public ResponseEntity<List<Plato>> getAllPlatos(){
+        return new ResponseEntity<>(platoService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping(path = "/api/abm/platos")
