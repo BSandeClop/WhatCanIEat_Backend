@@ -29,6 +29,8 @@ public class JwtUtils {
     private static String PWD;
 
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
+        System.out.println("Password is " + PWD);
+        System.out.println("User is " + USER);
         try {
             if (request.getUsername().equals(USER) && request.getPassword().equals(PWD)){
                 System.out.println("Entre al if");
