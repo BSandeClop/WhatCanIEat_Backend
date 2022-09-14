@@ -21,15 +21,14 @@ public class JwtUtils {
 
     private static String SECRET = System.getenv("JWT_SECRET");
 
-    private static String USER = System.getenv("ADMIN");
+    private static String USER = System.getenv("USER");
 
-    private static String PWD = System.getenv("PWD");
+    private static String PASS = System.getenv("PASS");
 
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
-        System.out.println("Password is " + PWD);
-        System.out.println("User is " + USER);
+
         try {
-            if (request.getUsername().equals(USER) && request.getPassword().equals(PWD)){
+            if (request.getUsername().equals(USER) && request.getPassword().equals(PASS)){
                 System.out.println("Entre al if");
                 UserPrincipal user = new UserPrincipal(request.getUsername());
 
