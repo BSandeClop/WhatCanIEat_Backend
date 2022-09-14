@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import net.whatcanieat.FoodApi.dto.AuthRequest;
 import net.whatcanieat.FoodApi.dto.AuthResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +23,8 @@ public class JwtUtils {
     private static String USER = System.getenv("USER");
 
     private static String PASS = System.getenv("PASS");
+
+    private static final SignatureAlgorithm ALGO = SignatureAlgorithm.HS256;
 
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
 
@@ -53,7 +54,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + EXPIRATION_TIME*1000))
-                .signWith(SignatureAlgorithm.ES256, SECRET.getBytes())
+                .signWith(ALGO, SECRET.getBytes())
                 .compact();
     }
 
