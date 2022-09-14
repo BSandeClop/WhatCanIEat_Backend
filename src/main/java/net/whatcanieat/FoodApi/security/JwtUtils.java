@@ -53,7 +53,7 @@ public class JwtUtils {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + EXPIRATION_TIME*1000))
-                .signWith(SignatureAlgorithm.ES256, SECRET)
+                .signWith(SignatureAlgorithm.ES256, SECRET.getBytes())
                 .compact();
     }
 
