@@ -22,6 +22,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         } catch (Exception e){
             System.out.println("Error en JwtRequestFilter > doFilterInternal " + e);
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private void verifyAndAuthUser(HttpServletRequest request, String token){

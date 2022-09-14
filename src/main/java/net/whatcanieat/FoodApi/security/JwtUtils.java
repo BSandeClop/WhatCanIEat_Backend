@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
@@ -25,18 +26,17 @@ public class JwtUtils {
 
     private static final String SECRET = "${JWT_SECRET}";
 
-    public static AuthResponse authenticate(AuthRequest request) {
+    public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
         try {
             if (request.getUsername().equals("${ADMIN}") && request.getPassword().equals("${PWD}")){
 
                 UserPrincipal user = new UserPrincipal(request.getUsername());
                 Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
+                
                 return new AuthResponse(createToken(user.getUsername()));
-            } else {
-                throw new BadCredentialsException("Credenciales invalidas");
             }
+            throw new AuthenticationException();
         } catch (Exception e){
             throw e;
         }

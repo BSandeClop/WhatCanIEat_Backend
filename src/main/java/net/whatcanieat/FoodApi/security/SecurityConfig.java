@@ -20,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.requestFilter = requestFilter;
     }
 
-
     protected void configure(HttpSecurity http) throws Exception {
         http    .cors().and()
                 .csrf().disable()
