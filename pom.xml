@@ -14,7 +14,7 @@
 	<name>FoodApi</name>
 	<description>Api for the WhatCanIEat.net backend</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
