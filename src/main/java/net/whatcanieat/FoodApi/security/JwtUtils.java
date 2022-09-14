@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import net.whatcanieat.FoodApi.dto.AuthRequest;
 import net.whatcanieat.FoodApi.dto.AuthResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,11 +19,18 @@ public class JwtUtils {
 
     private static final long EXPIRATION_TIME = 43200; //12 hs
 
-    private static final String SECRET = "${JWT_SECRET}";
+    @Value("${JWT_SECRET}")
+    private static String SECRET;
+
+    @Value("${ADMIN}")
+    private static String USER;
+
+    @Value("${PWD}")
+    private static String PWD;
 
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
         try {
-            if (request.getUsername().equals("${ADMIN}") && request.getPassword().equals("${PWD}")){
+            if (request.getUsername().equals(USER) && request.getPassword().equals(PWD)){
                 System.out.println("Entre al if");
                 UserPrincipal user = new UserPrincipal(request.getUsername());
 
@@ -32,6 +40,7 @@ public class JwtUtils {
 
                 return new AuthResponse(createToken(user.getUsername()));
             }
+            System.out.println("No entre al if");
             throw new AuthenticationException();
         } catch (Exception e){
             throw e;
