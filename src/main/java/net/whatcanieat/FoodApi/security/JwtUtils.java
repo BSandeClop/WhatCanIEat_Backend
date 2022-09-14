@@ -19,14 +19,11 @@ public class JwtUtils {
 
     private static final long EXPIRATION_TIME = 43200; //12 hs
 
-    @Value("${JWT_SECRET}")
-    private static String SECRET;
+    private static String SECRET = System.getenv("JWT_SECRET");
 
-    @Value("${ADMIN}")
-    private static String USER;
+    private static String USER = System.getenv("ADMIN");
 
-    @Value("${PWD}")
-    private static String PWD;
+    private static String PWD = System.getenv("PWD");
 
     public static AuthResponse authenticate(AuthRequest request) throws AuthenticationException {
         System.out.println("Password is " + PWD);
